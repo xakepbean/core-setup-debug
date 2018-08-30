@@ -89,14 +89,14 @@ bool pal::load_library(const string_t* in_path, dll_t* dll)
     string_t path = *in_path;
 
     // LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR:
-    //   In portable apps, coreclr would come from another directory than the host,
+    //   In framework-dependent apps, coreclr would come from another directory than the host,
     //   so make sure coreclr dependencies can be resolved from coreclr.dll load dir.
 
     if (LongFile::IsPathNotFullyQualified(path))
     {
         if (!pal::realpath(&path))
         {
-            trace::error(_X("Failed to load the dll from [%s], HRESULT: 0x%X"), path, HRESULT_FROM_WIN32(GetLastError()));
+            trace::error(_X("Failed to load the dll from [%s], HRESULT: 0x%X"), path.c_str(), HRESULT_FROM_WIN32(GetLastError()));
             return false;
         }
     }
@@ -107,7 +107,7 @@ bool pal::load_library(const string_t* in_path, dll_t* dll)
     *dll = ::LoadLibraryExW(path.c_str(), NULL, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
     if (*dll == nullptr)
     {
-        trace::error(_X("Failed to load the dll from [%s], HRESULT: 0x%X"), path, HRESULT_FROM_WIN32(GetLastError()));
+        trace::error(_X("Failed to load the dll from [%s], HRESULT: 0x%X"), path.c_str(), HRESULT_FROM_WIN32(GetLastError()));
         return false;
     }
 
@@ -115,7 +115,7 @@ bool pal::load_library(const string_t* in_path, dll_t* dll)
     HMODULE dummy_module;
     if (!::GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_PIN, path.c_str(), &dummy_module))
     {
-        trace::error(_X("Failed to pin library [%s] in [%s]"), path, _STRINGIFY(__FUNCTION__));
+        trace::error(_X("Failed to pin library [%s] in [%s]"), path.c_str(), _STRINGIFY(__FUNCTION__));
         return false;
     }
 
@@ -123,7 +123,7 @@ bool pal::load_library(const string_t* in_path, dll_t* dll)
     {
         string_t buf;
         GetModuleFileNameWrapper(*dll, &buf);
-        trace::info(_X("Loaded library from %s"), buf);
+        trace::info(_X("Loaded library from %s"), buf.c_str());
     }
 
     return true;
@@ -131,28 +131,18 @@ bool pal::load_library(const string_t* in_path, dll_t* dll)
 
 pal::proc_t pal::get_symbol(dll_t library, const char* name)
 {
-    return ::GetProcAddress(library, name);
+    auto result = ::GetProcAddress(library, name);
+    if (result == nullptr)
+    {
+        trace::info(_X("Probed for and did not resolve library symbol %s"), name);
+    }
+
+    return result;
 }
 
 void pal::unload_library(dll_t library)
 {
     // No-op. On windows, we pin the library, so it can't be unloaded.
-}
-
-static
-bool get_file_path_from_env(const pal::char_t* env_key, pal::string_t* recv)
-{
-    recv->clear();
-    pal::string_t file_path;
-    if (!(pal::getenv(env_key, &file_path) && pal::realpath(&file_path)))
-    {
-        // We should have the path in file_path.
-        trace::verbose(_X("Failed to obtain [%s] directory,[%s]"),env_key, file_path.c_str());
-        return false;
-    }
-
-    recv->assign(file_path);
-    return true;
 }
 
 static
@@ -198,13 +188,33 @@ bool pal::get_default_servicing_directory(string_t* recv)
 bool pal::get_global_dotnet_dirs(std::vector<pal::string_t>* dirs)
 {
     pal::string_t dir;
-    if (!get_file_path_from_env(_X("ProgramFiles"), &dir))
+    if (!get_default_installation_dir(&dir))
     {
         return false;
     }
 
-    append_path(&dir, _X("dotnet"));
     dirs->push_back(dir);
+    return true;
+}
+
+bool pal::get_default_installation_dir(pal::string_t* recv)
+{
+    pal::char_t* program_files_dir;
+    if (pal::is_running_in_wow64())
+    {
+        program_files_dir = _X("ProgramFiles(x86)");
+    }
+    else
+    {
+        program_files_dir = _X("ProgramFiles");
+    }
+
+    if (!get_file_path_from_env(program_files_dir, recv))
+    {
+        return false;
+    }
+
+    append_path(recv, _X("dotnet"));
     return true;
 }
 
@@ -362,56 +372,72 @@ bool pal::clr_palstring(const char* cstr, pal::string_t* out)
     return wchar_convert_helper(CP_UTF8, cstr, ::strlen(cstr), out);
 }
 
-bool pal::realpath(string_t* path)
+// Return if path is valid and file exists, return true and adjust path as appropriate.
+bool pal::realpath(string_t* path, bool skip_error_logging)
 {
-
-    if (LongFile::IsNormalized(*path))
+    if (LongFile::IsNormalized(path->c_str()))
     {
-        return true;
+        WIN32_FILE_ATTRIBUTE_DATA data;
+        if (GetFileAttributesExW(path->c_str(), GetFileExInfoStandard, &data) != 0)
+        {
+            return true;
+        }
     }
 
     char_t buf[MAX_PATH];
     auto size = ::GetFullPathNameW(path->c_str(), MAX_PATH, buf, nullptr);
-    
     if (size == 0)
     {
-        trace::error(_X("Error resolving full path [%s]"), path->c_str());
+        if (!skip_error_logging)
+        {
+            trace::error(_X("Error resolving full path [%s]"), path->c_str());
+        }
         return false;
-    }
-
-    if (size < MAX_PATH)
-    {
-        path->assign(buf);
-        return true;
     }
 
     string_t str;
-    str.resize(size + LongFile::UNCExtendedPathPrefix.length(), 0);
-
-    size = ::GetFullPathNameW(path->c_str() , size, (LPWSTR)str.data() , nullptr);
-    assert(size <= str.size());
-    
-    if (size == 0)
+    if (size < MAX_PATH)
     {
-        trace::error(_X("Error resolving full path [%s]"), path->c_str());
-        return false;
+        str.assign(buf);
+    }
+    else
+    {
+        str.resize(size + LongFile::UNCExtendedPathPrefix.length(), 0);
+
+        size = ::GetFullPathNameW(path->c_str(), size, (LPWSTR)str.data(), nullptr);
+        assert(size <= str.size());
+
+        if (size == 0)
+        {
+            if (!skip_error_logging)
+            {
+                trace::error(_X("Error resolving full path [%s]"), path->c_str());
+            }
+            return false;
+        }
+
+        const string_t* prefix = &LongFile::ExtendedPrefix;
+        //Check if the resolved path is a UNC. By default we assume relative path to resolve to disk 
+        if (str.compare(0, LongFile::UNCPathPrefix.length(), LongFile::UNCPathPrefix) == 0)
+        {
+            prefix = &LongFile::UNCExtendedPathPrefix;
+            str.erase(0, LongFile::UNCPathPrefix.length());
+            size = size - LongFile::UNCPathPrefix.length();
+        }
+
+        str.insert(0, *prefix);
+        str.resize(size + prefix->length());
+        str.shrink_to_fit();
     }
 
-    const string_t* prefix = &LongFile::ExtendedPrefix;
-    //Check if the resolved path is a UNC. By default we assume relative path to resolve to disk 
-    if (str.compare(0, LongFile::UNCPathPrefix.length(), LongFile::UNCPathPrefix) == 0)
+    WIN32_FILE_ATTRIBUTE_DATA data;
+    if (GetFileAttributesExW(str.c_str(), GetFileExInfoStandard, &data) != 0)
     {
-        prefix = &LongFile::UNCExtendedPathPrefix;
-        str.erase(0, LongFile::UNCPathPrefix.length());
-        size = size - LongFile::UNCPathPrefix.length();
+        *path = str;
+        return true;
     }
 
-    str.insert(0, *prefix);
-    str.resize(size + prefix->length());
-    str.shrink_to_fit();
-    *path = str;
-
-    return true;
+    return false;
 }
 
 bool pal::file_exists(const string_t& path)
@@ -421,34 +447,16 @@ bool pal::file_exists(const string_t& path)
         return false;
     }
 
-    auto pathstring = path.c_str();
-    string_t normalized_path;
-    if (LongFile::ShouldNormalize(path))
-    {
-        normalized_path = path;
-        if (!pal::realpath(&normalized_path))
-        {
-            return false;
-        }
-        pathstring = normalized_path.c_str();
-    }
-
-    // We will attempt to fetch attributes for the file or folder in question that are
-    // returned only if they exist.
-    WIN32_FILE_ATTRIBUTE_DATA data;
-    if (GetFileAttributesExW(pathstring, GetFileExInfoStandard, &data) != 0) {
-        return true;
-    }
-    
-    return false;
+    string_t tmp(path);
+    return pal::realpath(&tmp, true);
 }
 
-void pal::readdir(const string_t& path, const string_t& pattern, std::vector<pal::string_t>* list)
+static void readdir(const pal::string_t& path, const pal::string_t& pattern, bool onlydirectories, std::vector<pal::string_t>* list)
 {
     assert(list != nullptr);
 
-    std::vector<string_t>& files = *list;
-    string_t normalized_path(path);
+    std::vector<pal::string_t>& files = *list;
+    pal::string_t normalized_path(path);
 
     if (LongFile::ShouldNormalize(normalized_path))
     {
@@ -458,7 +466,7 @@ void pal::readdir(const string_t& path, const string_t& pattern, std::vector<pal
         }
     }
 
-    string_t search_string(normalized_path);
+    pal::string_t search_string(normalized_path);
     append_path(&search_string, pattern.c_str());
 
     WIN32_FIND_DATAW data = { 0 };
@@ -470,14 +478,44 @@ void pal::readdir(const string_t& path, const string_t& pattern, std::vector<pal
     }
     do
     {
-        string_t filepath(data.cFileName);
-        files.push_back(filepath);
+        if (!onlydirectories || (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+        {
+            pal::string_t filepath(data.cFileName);
+            if (filepath != _X(".") && filepath != _X(".."))
+            {
+                files.push_back(filepath);
+            }
+        }
     } while (::FindNextFileW(handle, &data));
     ::FindClose(handle);
 }
 
-void pal::readdir(const string_t& path, std::vector<pal::string_t>* list)
+void pal::readdir(const string_t& path, const string_t& pattern, std::vector<pal::string_t>* list)
 {
-    pal::readdir(path, _X("*"), list);
+    ::readdir(path, pattern, false, list);
 }
 
+void pal::readdir(const string_t& path, std::vector<pal::string_t>* list)
+{
+    ::readdir(path, _X("*"), false, list);
+}
+
+void pal::readdir_onlydirectories(const pal::string_t& path, const string_t& pattern, std::vector<pal::string_t>* list)
+{
+    ::readdir(path, pattern, true, list);
+}
+
+void pal::readdir_onlydirectories(const pal::string_t& path, std::vector<pal::string_t>* list)
+{
+    ::readdir(path, _X("*"), true, list);
+}
+
+bool pal::is_running_in_wow64()
+{
+    BOOL fWow64Process = FALSE;
+    if (!IsWow64Process(GetCurrentProcess(), &fWow64Process))
+    {
+        return false;
+    }
+    return (fWow64Process != FALSE);
+}

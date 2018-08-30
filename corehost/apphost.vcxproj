@@ -30,7 +30,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -56,7 +56,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\bin\Debug</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\bin\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\bin\apphost.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">apphost</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
@@ -103,11 +103,11 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";FEATURE_APPHOST=1;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";FEATURE_APPHOST=1;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\common;$(MSBuildProjectDirectory)\cli;$(MSBuildProjectDirectory)\cli\fxr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -155,13 +155,13 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";FEATURE_APPHOST=1;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";FEATURE_APPHOST=1;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\common;$(MSBuildProjectDirectory)\cli;$(MSBuildProjectDirectory)\cli\fxr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -211,13 +211,13 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";FEATURE_APPHOST=1;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";FEATURE_APPHOST=1;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\common;$(MSBuildProjectDirectory)\cli;$(MSBuildProjectDirectory)\cli\fxr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -266,11 +266,11 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";FEATURE_APPHOST=1;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";FEATURE_APPHOST=1;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";FEATURE_APPHOST=1;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(MSBuildProjectDirectory)\common;$(MSBuildProjectDirectory)\cli;$(MSBuildProjectDirectory)\cli\fxr;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -306,6 +306,7 @@
     <ClCompile Include="common\utils.cpp" />
     <ClCompile Include="common\pal.windows.cpp" />
     <ClCompile Include="common\longfile.windows.cpp" />
+    <ClCompile Include="cli\fxr\fx_ver.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -63,7 +63,7 @@ void append_path(pal::string_t* path1, const pal::char_t* path2)
     }
 }
 
-pal::string_t get_executable(const pal::string_t& filename)
+pal::string_t strip_executable_ext(const pal::string_t& filename)
 {
     pal::string_t exe_suffix = pal::exe_suffix();
     if (exe_suffix.empty())
@@ -71,15 +71,15 @@ pal::string_t get_executable(const pal::string_t& filename)
         return filename;
     }
 
-   if (ends_with(filename, exe_suffix, false))
-   {
+    if (ends_with(filename, exe_suffix, false))
+    {
         // We need to strip off the old extension
         pal::string_t result(filename);
         result.erase(result.size() - exe_suffix.size());
         return result;
-   }
+    }
 
-   return filename;
+    return filename;
 }
 
 pal::string_t strip_file_ext(const pal::string_t& path)
@@ -92,7 +92,7 @@ pal::string_t strip_file_ext(const pal::string_t& path)
     size_t dot_pos = path.rfind(_X('.'));
     if (sep_pos != pal::string_t::npos && sep_pos > dot_pos)
     {
-	    return path;
+        return path;
     }
     return path.substr(0, dot_pos);
 }
@@ -150,6 +150,14 @@ pal::string_t get_directory(const pal::string_t& path)
     return ret.substr(0, pos + 1) + DIR_SEPARATOR;
 }
 
+void remove_trailing_dir_seperator(pal::string_t* dir)
+{
+    if (dir->back() == DIR_SEPARATOR)
+    {
+        dir->pop_back();
+    }
+}
+
 void replace_char(pal::string_t* path, pal::char_t match, pal::char_t repl)
 {
     int pos = 0;
@@ -157,6 +165,23 @@ void replace_char(pal::string_t* path, pal::char_t match, pal::char_t repl)
     {
         (*path)[pos] = repl;
     }
+}
+
+pal::string_t get_replaced_char(const pal::string_t& path, pal::char_t match, pal::char_t repl)
+{
+    int pos = path.find(match);
+    if (pos == pal::string_t::npos)
+    {
+        return path;
+    }
+
+    pal::string_t out = path;
+    do
+    {
+        out[pos] = repl;
+    } while ((pos = out.find(match, pos)) != pal::string_t::npos);
+
+    return out;
 }
 
 const pal::char_t* get_arch()
@@ -175,7 +200,7 @@ const pal::char_t* get_arch()
 }
 
 pal::string_t get_last_known_arg(
-    const std::unordered_map<pal::string_t, std::vector<pal::string_t>>& opts,
+    const opt_map_t& opts,
     const pal::string_t& opt_key,
     const pal::string_t& de_fault)
 {
@@ -193,7 +218,7 @@ bool parse_known_args(
     const std::vector<host_option>& known_opts,
     // Although multimap would provide this functionality the order of kv, values are
     // not preserved in C++ < C++0x
-    std::unordered_map<pal::string_t, std::vector<pal::string_t>>* opts,
+    opt_map_t* opts,
     int* num_args)
 {
     int arg_i = *num_args;
@@ -294,4 +319,67 @@ bool get_global_shared_store_dirs(std::vector<pal::string_t>*  dirs, const pal::
         dirs->push_back(dir);
     }
     return true;
+}
+
+/**
+* Multilevel Lookup is enabled by default
+*  It can be disabled by setting DOTNET_MULTILEVEL_LOOKUP env var to a value that is not 1
+*/
+bool multilevel_lookup_enabled()
+{
+    pal::string_t env_lookup;
+    bool multilevel_lookup = true;
+
+    if (pal::getenv(_X("DOTNET_MULTILEVEL_LOOKUP"), &env_lookup))
+    {
+        auto env_val = pal::xtoi(env_lookup.c_str());
+        multilevel_lookup = (env_val == 1);
+    }
+    return multilevel_lookup;
+}
+
+bool get_file_path_from_env(const pal::char_t* env_key, pal::string_t* recv)
+{
+    recv->clear();
+    pal::string_t file_path;
+    if (pal::getenv(env_key, &file_path))
+    {
+        if (pal::realpath(&file_path))
+        {
+            recv->assign(file_path);
+            return true;
+        }
+        trace::verbose(_X("Did not find [%s] directory [%s]"), env_key, file_path.c_str());
+    }
+
+    return false;
+}
+
+size_t index_of_non_numeric(const pal::string_t& str, unsigned i)
+{
+    return str.find_first_not_of(_X("0123456789"), i);
+}
+
+bool try_stou(const pal::string_t& str, unsigned* num)
+{
+    if (str.empty())
+    {
+        return false;
+    }
+    if (index_of_non_numeric(str, 0) != pal::string_t::npos)
+    {
+        return false;
+    }
+    *num = (unsigned)std::stoul(str);
+    return true;
+}
+
+pal::string_t get_dotnet_root_env_var_name()
+{
+    if (pal::is_running_in_wow64())
+    {
+        return pal::string_t(_X("DOTNET_ROOT(x86)"));
+    }
+
+    return pal::string_t(_X("DOTNET_ROOT"));
 }

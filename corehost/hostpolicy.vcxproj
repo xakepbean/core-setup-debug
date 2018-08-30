@@ -30,7 +30,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -56,7 +56,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\bin\Debug</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\bin\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\bin\hostpolicy.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">hostpolicy</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
@@ -103,13 +103,13 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="Debug";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="Debug";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"Debug\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;DEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"Debug\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       </ResourceCompile>
+    </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
@@ -155,15 +155,15 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="Release";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="Release";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"Release\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"Release\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       </ResourceCompile>
+    </ResourceCompile>
     <Midl>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
@@ -193,8 +193,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-     <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <AdditionalOptions>%(AdditionalOptions) /guard:cf /d2Zi+</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /guard:cf /d2Zi+</AdditionalOptions>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -211,18 +211,18 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="MinSizeRel";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="MinSizeRel";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"MinSizeRel\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-     <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       </ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"MinSizeRel\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
     <Midl>
-     <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -247,8 +247,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-     <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <AdditionalOptions>%(AdditionalOptions) /guard:cf /d2Zi+</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /guard:cf /d2Zi+</AdditionalOptions>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -266,16 +266,16 @@
       <StringPooling>true</StringPooling>
       <UseFullPaths>true</UseFullPaths>
       <WarningLevel>Level1</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.0.0";HOST_FXR_PKG_VER="2.0.0";HOST_PKG_VER="2.0.0";APPHOST_PKG_VER="2.0.0";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="RelWithDebInfo";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER="2.1.3";HOST_FXR_PKG_VER="2.1.3";HOST_PKG_VER="2.1.3";APPHOST_PKG_VER="2.1.3";HOST_POLICY_PKG_NAME="runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy";HOST_POLICY_PKG_REL_DIR="runtimes/win-x64/native";REPO_COMMIT_HASH="124038c13eafa08e4bd8c2bfd04bb0633f958bc8";COREHOST_MAKE_DLL=1;CMAKE_INTDIR="RelWithDebInfo";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.0.0\";HOST_FXR_PKG_VER=\"2.0.0\";HOST_PKG_VER=\"2.0.0\";APPHOST_PKG_VER=\"2.0.0\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"e8b8861ac7faf042c87a5c2f9f2d04c98b69f28d\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"RelWithDebInfo\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;EBUG;_WIN32=1;_NO_ASYNCRTIMP;_NO_PPLXIMP;_TARGET_AMD64_=1;HOST_POLICY_PKG_VER=\"2.1.3\";HOST_FXR_PKG_VER=\"2.1.3\";HOST_PKG_VER=\"2.1.3\";APPHOST_PKG_VER=\"2.1.3\";HOST_POLICY_PKG_NAME=\"runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy\";HOST_POLICY_PKG_REL_DIR=\"runtimes/win-x64/native\";REPO_COMMIT_HASH=\"124038c13eafa08e4bd8c2bfd04bb0633f958bc8\";COREHOST_MAKE_DLL=1;CMAKE_INTDIR=\"RelWithDebInfo\";hostpolicy_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-        </ResourceCompile>
+    </ResourceCompile>
     <Midl>
-     <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\hostResourceFiles\hostpolicy;$(MSBuildProjectDirectory)\cli\dll\..;$(MSBuildProjectDirectory)\cli\dll\..\..;$(MSBuildProjectDirectory)\cli\dll\..\..\common;$(MSBuildProjectDirectory)\cli\dll\..\fxr;$(MSBuildProjectDirectory)\cli\dll\..\json\casablanca\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
@@ -310,13 +310,16 @@
     <ClCompile Include="cli\json\casablanca\src\json\json_serialization.cpp" />
     <ClCompile Include="cli\json\casablanca\src\utilities\asyncrt_utils.cpp" />
     <ClCompile Include="cli\fxr\fx_ver.cpp" />
+    <ClCompile Include="cli\fx_definition.cpp" />
     <ClCompile Include="cli\breadcrumbs.cpp" />
     <ClCompile Include="cli\args.cpp" />
     <ClCompile Include="cli\hostpolicy.cpp" />
+    <ClCompile Include="cli\host_startup_info.cpp" />
     <ClCompile Include="cli\coreclr.cpp" />
     <ClCompile Include="cli\deps_resolver.cpp" />
     <ClCompile Include="cli\deps_format.cpp" />
     <ClCompile Include="cli\deps_entry.cpp" />
+    <ClCompile Include="cli\version.cpp" />
     <ClCompile Include="common\pal.windows.cpp" />
     <ClCompile Include="common\longfile.windows.cpp" />
     <ResourceCompile Include="cli\native.rc" />

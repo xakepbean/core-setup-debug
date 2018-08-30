@@ -9,45 +9,62 @@
 
 bool deps_entry_t::to_path(const pal::string_t& base, bool look_in_base, pal::string_t* str) const
 {
-	pal::string_t& candidate = *str;
+    pal::string_t& candidate = *str;
 
     candidate.clear();
-    
-	// Base directory must be present to obtain full path
-	if (base.empty())
-	{
-		return false;
-	}
 
-	// Entry relative path contains '/' separator, sanitize it to use
-	// platform separator. Perf: avoid extra copy if it matters.
-	pal::string_t pal_relative_path = relative_path;
-	if (_X('/') != DIR_SEPARATOR)
-	{
-		replace_char(&pal_relative_path, _X('/'), DIR_SEPARATOR);
-	}
+    // Base directory must be present to obtain full path
+    if (base.empty())
+    {
+        return false;
+    }
 
-	// Reserve space for the path below
-	candidate.reserve(base.length() +
-		pal_relative_path.length() + 3);
+    // Entry relative path contains '/' separator, sanitize it to use
+    // platform separator. Perf: avoid extra copy if it matters.
+    pal::string_t pal_relative_path = asset.relative_path;
+    if (_X('/') != DIR_SEPARATOR)
+    {
+        replace_char(&pal_relative_path, _X('/'), DIR_SEPARATOR);
+    }
 
-	candidate.assign(base);
-	pal::string_t sub_path = look_in_base ? get_filename(pal_relative_path) : pal_relative_path;
+    // Reserve space for the path below
+    candidate.reserve(base.length() +
+        pal_relative_path.length() + 3);
+
+    candidate.assign(base);
+    pal::string_t sub_path = look_in_base ? get_filename(pal_relative_path) : pal_relative_path;
     append_path(&candidate, sub_path.c_str());
-    
-	bool exists = pal::file_exists(candidate);
-	const pal::char_t* query_type = look_in_base ? _X("Local") : _X("Relative");
 
+    bool exists = pal::file_exists(candidate);
+    const pal::char_t* query_type = look_in_base ? _X("Local") : _X("Relative");
     if (!exists)
-	{
-		trace::verbose(_X("    %s path query did not exist %s"), query_type, candidate.c_str());
+    {
+        trace::verbose(_X("    %s path query did not exist %s"), query_type, candidate.c_str());
+        candidate.clear();
+    }
+    else
+    {
+        trace::verbose(_X("    %s path query exists %s"), query_type, candidate.c_str());
+    }
+	
+	if (!exists && look_in_base) {
 		candidate.clear();
+		candidate.assign(base);
+		append_path(&candidate, _X("runtime"));
+		append_path(&candidate, get_filename(pal_relative_path).c_str());
+		bool existsrun = pal::file_exists(candidate);
+		if (!existsrun)
+		{
+			trace::verbose(_X("    %s path query did not exist %s"), query_type, candidate.c_str());
+			candidate.clear();
+		}
+		else
+		{
+			trace::verbose(_X("    %s path query exists %s"), query_type, candidate.c_str());
+		}
+		return existsrun;
 	}
-	else
-	{
-		trace::verbose(_X("    %s path query exists %s"), query_type, candidate.c_str());
-	}
-	return exists;
+    return exists;
 }
 
 // -----------------------------------------------------------------------------
@@ -63,47 +80,32 @@ bool deps_entry_t::to_path(const pal::string_t& base, bool look_in_base, pal::st
 //
 bool deps_entry_t::to_dir_path(const pal::string_t& base, pal::string_t* str) const
 {
-	auto to_dir_runtime_path= [&](const pal::string_t& base, pal::string_t* str)-> bool
-	{
-		if (asset_type == asset_types::resources)
-		{
-			pal::string_t pal_relative_path = relative_path;
-			if (_X('/') != DIR_SEPARATOR)
-			{
-				replace_char(&pal_relative_path, _X('/'), DIR_SEPARATOR);
-			}
+    if (asset_type == asset_types::resources)
+    {
+        pal::string_t pal_relative_path = asset.relative_path;
+        if (_X('/') != DIR_SEPARATOR)
+        {
+            replace_char(&pal_relative_path, _X('/'), DIR_SEPARATOR);
+        }
 
-			// Resources are represented as "lib/<netstandrd_ver>/<ietf-code>/<ResourceAssemblyName.dll>" in the deps.json.
-			// The <ietf-code> is the "directory" in the pal_relative_path below, so extract it.
-			pal::string_t ietf_dir = get_directory(pal_relative_path);
-			pal::string_t ietf = ietf_dir;
+        // Resources are represented as "lib/<netstandrd_ver>/<ietf-code>/<ResourceAssemblyName.dll>" in the deps.json.
+        // The <ietf-code> is the "directory" in the pal_relative_path below, so extract it.
+        pal::string_t ietf_dir = get_directory(pal_relative_path);
+        pal::string_t ietf = ietf_dir;
 
-			// get_directory returns with DIR_SEPERATOR appended that we need to remove.
-			if (ietf.back() == DIR_SEPARATOR) {
-				ietf.pop_back();
-			}
+        // get_directory returns with DIR_SEPARATOR appended that we need to remove.
+        remove_trailing_dir_seperator(&ietf);
 
-			// Extract IETF code from "lib/<netstandrd_ver>/<ietf-code>"
-			ietf = get_filename(ietf);
-
-			pal::string_t base_ietf_dir = base;
-			append_path(&base_ietf_dir, ietf.c_str());
-			trace::verbose(_X("Detected a resource asset, will query dir/ietf-tag/resource base: %s asset: %s"), base_ietf_dir.c_str(), asset_name.c_str());
-			return to_path(base_ietf_dir, true, str);
-		}
-		return to_path(base, true, str);
-	};
-	pal::string_t baserun;
-	baserun.assign(base);
-	append_path(&baserun, _X("runtime"));
-	bool exists = to_dir_runtime_path(baserun,str);
-	if (!exists) {
-		exists = to_dir_runtime_path(base, str);
-		baserun.clear();
-	}
-	return exists;
+        // Extract IETF code from "lib/<netstandrd_ver>/<ietf-code>"
+        ietf = get_filename(ietf);
+        
+        pal::string_t base_ietf_dir = base;
+        append_path(&base_ietf_dir, ietf.c_str());
+        trace::verbose(_X("Detected a resource asset, will query dir/ietf-tag/resource base: %s asset: %s"), base_ietf_dir.c_str(), asset.name.c_str());
+        return to_path(base_ietf_dir, true, str);
+    }
+    return to_path(base, true, str);
 }
-
 // -----------------------------------------------------------------------------
 // Given a "base" directory, yield the relative path of this file in the package
 // layout.

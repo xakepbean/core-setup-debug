@@ -27,5 +27,10 @@ enum StatusCode
     InvalidConfigFile           = 0x80008093,
     AppArgNotRunnable           = 0x80008094,
     AppHostExeNotBoundFailure   = 0x80008095,
+    FrameworkMissingFailure     = 0x80008096,
+    HostApiFailed               = 0x80008097,
+    HostApiBufferTooSmall       = 0x80008098,
+    LibHostUnknownCommand       = 0x80008099,
+    LibHostAppRootFindFailure   = 0x8000809a,
 };
 #endif // __ERROR_CODES_H__

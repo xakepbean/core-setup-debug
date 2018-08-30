@@ -8,8 +8,8 @@
 
 arguments_t::arguments_t() :
     managed_application(_X("")),
-    own_path(_X("")),
-    app_dir(_X("")),
+    host_path(_X("")),
+    app_root(_X("")),
     app_argc(0),
     app_argv(nullptr),
     core_servicing(_X("")),
@@ -49,7 +49,11 @@ void setup_shared_store_paths(const hostpolicy_init_t& init, const pal::string_t
     }
 
     // Global shared store dir
-    get_global_shared_store_dirs(&args->global_shared_stores, get_arch(), init.tfm);
+    bool multilevel_lookup = multilevel_lookup_enabled();
+    if (multilevel_lookup)
+    {
+        get_global_shared_store_dirs(&args->global_shared_stores, get_arch(), init.tfm);
+    }
 }
 
 bool parse_arguments(
@@ -57,19 +61,12 @@ bool parse_arguments(
     const int argc, const pal::char_t* argv[], arguments_t* arg_out)
 {
     arguments_t& args = *arg_out;
-    // Get the full name of the application
-    if (!pal::get_own_executable_path(&args.own_path) || !pal::realpath(&args.own_path))
-    {
-        trace::error(_X("Failed to resolve full path of the current executable [%s]"), args.own_path.c_str());
-        return false;
-    }
 
-    auto own_name = get_filename(args.own_path);
-    auto own_dir = get_directory(args.own_path);
-    
-    if (init.host_mode != host_mode_t::standalone)
+    args.host_path = init.host_info.host_path;
+
+    if (init.host_mode != host_mode_t::apphost)
     {
-        // corerun mode. First argument is managed app
+        // First argument is managed app
         if (argc < 2)
         {
             return false;
@@ -80,24 +77,20 @@ bool parse_arguments(
             trace::error(_X("Failed to locate managed application [%s]"), args.managed_application.c_str());
             return false;
         }
-        args.app_dir = get_directory(args.managed_application);
+        args.app_root = get_directory(args.managed_application);
         args.app_argc = argc - 2;
         args.app_argv = &argv[2];
     }
     else
     {
-        // coreconsole mode. Find the managed app in the same directory
-        pal::string_t managed_app(own_dir);
-
-        managed_app.append(get_executable(own_name));
-        managed_app.append(_X(".dll"));
-        args.managed_application = managed_app;
+        // Find the managed app in the same directory
+        args.managed_application = init.host_info.app_path;
         if (!pal::realpath(&args.managed_application))
         {
             trace::error(_X("Failed to locate managed application [%s]"), args.managed_application.c_str());
             return false;
         }
-        args.app_dir = own_dir;
+        args.app_root = get_directory(init.host_info.app_path);
         args.app_argv = &argv[1];
         args.app_argc = argc - 1;
     }
@@ -105,7 +98,7 @@ bool parse_arguments(
     if (!init.deps_file.empty())
     {
         args.deps_path = init.deps_file;
-        args.app_dir = get_directory(args.deps_path);
+        args.app_root = get_directory(args.deps_path);
     }
 
     for (const auto& probe : init.probe_paths)
@@ -115,7 +108,7 @@ bool parse_arguments(
     
     if (args.deps_path.empty())
     {
-        const auto& app_base = args.app_dir;
+        const auto& app_base = args.app_root;
         auto app_name = get_filename(args.managed_application);
 
         args.deps_path.reserve(app_base.length() + 1 + app_name.length() + 5);
@@ -131,7 +124,7 @@ bool parse_arguments(
 
     pal::get_default_servicing_directory(&args.core_servicing);
 
-    setup_shared_store_paths(init, own_dir, &args);
+    setup_shared_store_paths(init, get_directory(args.host_path), &args);
 
     return true;
 }

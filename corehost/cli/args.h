@@ -14,8 +14,8 @@ struct probe_config_t
 {
     pal::string_t probe_dir;
     bool patch_roll_fwd;
-    bool prerelease_roll_fwd;
     const deps_json_t* probe_deps_json;
+    int fx_level;
 
     bool only_runtime_assets;
     bool only_serviceable_assets;
@@ -24,18 +24,20 @@ struct probe_config_t
 
     void print() const
     {
-        trace::verbose(_X("probe_config_t: probe=[%s]  deps-json=[%p] deps-dir-probe=[%d]"),
-            probe_dir.c_str(), probe_deps_json, probe_publish_dir);
+        trace::verbose(_X("probe_config_t: probe=[%s] deps-dir-probe=[%d]"),
+            probe_dir.c_str(), probe_publish_dir);
     }
 
     probe_config_t(
         const pal::string_t& probe_dir,
         const deps_json_t* probe_deps_json,
+        int fx_level,
         bool only_serviceable_assets,
         bool only_runtime_assets,
         bool probe_publish_dir)
         : probe_dir(probe_dir)
         , probe_deps_json(probe_deps_json)
+        , fx_level(fx_level)
         , only_serviceable_assets(only_serviceable_assets)
         , only_runtime_assets(only_runtime_assets)
         , probe_publish_dir(probe_publish_dir)
@@ -50,36 +52,46 @@ struct probe_config_t
             !probe_publish_dir;
     }
 
+    bool is_fx() const
+    {
+        return (probe_deps_json != nullptr);
+    }
+
+    bool is_app() const
+    {
+        return probe_publish_dir;
+    }
+
     static probe_config_t svc_ni(const pal::string_t& dir)
     {
-        return probe_config_t(dir, nullptr, true, true, false);
+        return probe_config_t(dir, nullptr, -1, true, true, false);
     }
 
     static probe_config_t svc(const pal::string_t& dir)
     {
-        return probe_config_t(dir, nullptr, true, false, false);
+        return probe_config_t(dir, nullptr, -1, true, false, false);
     }
 
-    static probe_config_t fx(const pal::string_t& dir, const deps_json_t* deps)
+    static probe_config_t fx(const pal::string_t& dir, const deps_json_t* deps, int fx_level)
     {
-        return probe_config_t(dir, deps, false, false, false);
+        return probe_config_t(dir, deps, fx_level, false, false, false);
     }
 
     static probe_config_t lookup(const pal::string_t& dir)
     {
-        return probe_config_t(dir, nullptr, false, false, false);
+        return probe_config_t(dir, nullptr, -1, false, false, false);
     }
 
     static probe_config_t published_deps_dir()
     {
-        return probe_config_t(_X(""), nullptr, false, false, true);
+        return probe_config_t(_X(""), nullptr, 0, false, false, true);
     }
 };
 
 struct arguments_t
 {
-    pal::string_t own_path;
-    pal::string_t app_dir;
+    pal::string_t host_path;
+    pal::string_t app_root;
     pal::string_t deps_path;
     pal::string_t core_servicing;
     std::vector<pal::string_t> probe_paths;
@@ -96,8 +108,8 @@ struct arguments_t
     {
         if (trace::is_enabled())
         {
-            trace::verbose(_X("-- arguments_t: own_path='%s' app_dir='%s' deps='%s' core_svc='%s' mgd_app='%s'"),
-                own_path.c_str(), app_dir.c_str(), deps_path.c_str(), core_servicing.c_str(), managed_application.c_str());
+            trace::verbose(_X("-- arguments_t: host_path='%s' app_root='%s' deps='%s' core_svc='%s' mgd_app='%s'"),
+                host_path.c_str(), app_root.c_str(), deps_path.c_str(), core_servicing.c_str(), managed_application.c_str());
             for (const auto& probe : probe_paths)
             {
                 trace::verbose(_X("-- arguments_t: probe dir: '%s'"), probe.c_str());

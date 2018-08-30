@@ -5,24 +5,14 @@
 #include "utils.h"
 #include "trace.h"
 #include "libhost.h"
+#include "host_startup_info.h"
 
 void get_runtime_config_paths_from_app(const pal::string_t& app, pal::string_t* cfg, pal::string_t* dev_cfg)
 {
     auto name = get_filename_without_ext(app);
+    auto path = get_directory(app);
 
-    auto json_name = name + _X(".runtimeconfig.json");
-    auto dev_json_name = name + _X(".runtimeconfig.dev.json");
-
-    auto json_path = get_directory(app);
-    auto dev_json_path = json_path;
-
-    append_path(&json_path, json_name.c_str());
-    append_path(&dev_json_path, dev_json_name.c_str());
-
-    trace::verbose(_X("Runtime config is cfg=%s dev=%s"), json_path.c_str(), dev_json_path.c_str());
-
-    dev_cfg->assign(dev_json_path);
-    cfg->assign(json_path);
+    get_runtime_config_paths(path, name, cfg, dev_cfg);
 }
 
 void get_runtime_config_paths_from_arg(const pal::string_t& arg, pal::string_t* cfg, pal::string_t* dev_cfg)
@@ -44,20 +34,35 @@ void get_runtime_config_paths_from_arg(const pal::string_t& arg, pal::string_t* 
     cfg->assign(json_path);
 }
 
-host_mode_t detect_operating_mode(const pal::string_t& own_dir, const pal::string_t& own_dll, const pal::string_t& own_name)
+void get_runtime_config_paths(const pal::string_t& path, const pal::string_t& name, pal::string_t* cfg, pal::string_t* dev_cfg)
 {
-    if (coreclr_exists_in_dir(own_dir) || pal::file_exists(own_dll))
+    auto json_path = path;
+    auto json_name = name + _X(".runtimeconfig.json");
+    append_path(&json_path, json_name.c_str());
+    cfg->assign(json_path);
+
+    auto dev_json_path = path;
+    auto dev_json_name = name + _X(".runtimeconfig.dev.json");
+    append_path(&dev_json_path, dev_json_name.c_str());
+    dev_cfg->assign(dev_json_path);
+
+    trace::verbose(_X("Runtime config is cfg=%s dev=%s"), json_path.c_str(), dev_json_path.c_str());
+}
+
+host_mode_t detect_operating_mode(const host_startup_info_t& host_info)
+{
+    if (coreclr_exists_in_dir(host_info.dotnet_root) || pal::file_exists(host_info.app_path))
     {
-        pal::string_t own_deps_json = own_dir;
-        pal::string_t own_deps_filename = strip_file_ext(own_name) + _X(".deps.json");
-        pal::string_t own_config_filename = strip_file_ext(own_name) + _X(".runtimeconfig.json");
+        pal::string_t own_deps_json = host_info.dotnet_root;
+        pal::string_t own_deps_filename = host_info.get_app_name() + _X(".deps.json");
+        pal::string_t own_config_filename = host_info.get_app_name() + _X(".runtimeconfig.json");
         append_path(&own_deps_json, own_deps_filename.c_str());
         if (trace::is_enabled())
         {
-            trace::info(_X("Detecting mode... CoreCLR present in own dir [%s] and checking if [%s] file present=[%d]"),
-                own_dir.c_str(), own_deps_filename.c_str(), pal::file_exists(own_deps_json));
+            trace::info(_X("Detecting mode... CoreCLR present in dotnet root [%s] and checking if [%s] file present=[%d]"),
+                host_info.dotnet_root.c_str(), own_deps_filename.c_str(), pal::file_exists(own_deps_json));
         }
-        return ((pal::file_exists(own_deps_json) || !pal::file_exists(own_config_filename)) && pal::file_exists(own_dll)) ? host_mode_t::standalone : host_mode_t::split_fx;
+        return ((pal::file_exists(own_deps_json) || !pal::file_exists(own_config_filename)) && pal::file_exists(host_info.app_path)) ? host_mode_t::apphost : host_mode_t::split_fx;
     }
     else
     {
@@ -78,7 +83,7 @@ void try_patch_roll_forward_in_dir(const pal::string_t& cur_dir, const fx_ver_t&
     pal::string_t maj_min_star = start_ver.patch_glob();
 
     std::vector<pal::string_t> list;
-    pal::readdir(path, maj_min_star, &list);
+    pal::readdir_onlydirectories(path, maj_min_star, &list);
 
     fx_ver_t max_ver = start_ver;
     fx_ver_t ver(-1, -1, -1);
@@ -112,7 +117,7 @@ void try_prerelease_roll_forward_in_dir(const pal::string_t& cur_dir, const fx_v
     pal::string_t maj_min_pat_star = start_ver.prerelease_glob();
 
     std::vector<pal::string_t> list;
-    pal::readdir(path, maj_min_pat_star, &list);
+    pal::readdir_onlydirectories(path, maj_min_pat_star, &list);
 
     fx_ver_t max_ver = start_ver;
     fx_ver_t ver(-1, -1, -1);
